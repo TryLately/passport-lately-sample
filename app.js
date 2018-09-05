@@ -2,7 +2,7 @@
 
 var express = require('express'),
     passport = require('passport'),
-    AppStrategy = require('./auth').Strategy,
+    LatelyStrategy = require('passport-lately'),
     partials = require('express-partials'),
     http = require('http'),
     URL = require('url').URL,
@@ -27,7 +27,7 @@ function accessProtectedResource( method, path, values, accessToken, cb) {
   var options = {
     form: values,
     method: method,         
-    url:  config.SERVER_BASE_URL + '/v1/apps' + path,
+    url:  config.serverBaseURL + '/v1/apps' + path,
     headers: {'Authorization': 'Bearer ' + accessToken}
   };
 
@@ -67,7 +67,7 @@ passport.deserializeUser(function(id, done) {
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and appexample
 //   profile), and invoke a callback with a user object.
-passport.use('Lately',new AppStrategy(config, function(accessToken, refreshToken, profile, done) {
+passport.use('Lately',new LatelyStrategy(config, function(accessToken, refreshToken, profile, done) {
 
     console.log("Auth Completed :) | accessToken[" + accessToken + "] refreshToken[" + refreshToken + "] profile[", profile, "]");
 
@@ -126,7 +126,7 @@ app.get('/logout', function(req, res){
 });
 
 // protected server api
-app.post('/generate', ensureAuthenticated, function (req, res, next) {
+app.post('/generate', ensureAuthenticated, function (req, res) {
   accessProtectedResource( 'POST', '/content/generate', req.body, req.user.accessToken, function (err,result) {
     if (err) {
       console.log('returning', err )

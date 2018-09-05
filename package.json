@@ -1,10 +1,10 @@
 {
-  "name": "nodejs_oauth2_client",
-  "description": "An oAuth2 services client",
-  "author": "Angel Sanchez <angel.sanchez@intelygenz.com>",
+  "name": "lately-oauth-example",
+  "description": "OAuth2 services client for Lately",
+  "author": "Greg Hamel <greg@trylately.com>",
   "repository": {
     "type": "git",
-    "url": "http://github.com/IGZangelsanchez/nodejs_oauth2.git"
+    "url": "https://github.com/TryLately/passport-lately-example"
   },
   "dependencies": {
     "connect-ensure-login": "0.1.1",
@@ -12,6 +12,7 @@
     "express": "3.3.5",
     "express-partials": "0.1.1",
     "passport": "0.1.17",
+    "passport-lately": "1.0.0",
     "passport-oauth": "0.1.15",
     "request": "^2.88.0"
   },
