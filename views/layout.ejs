@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<title>Lately OAuth Sample</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.js"></script>
+
+	</head>
+
+	<body ng-app="LatelyOauth">
+
+		<br>
+		<div class="container" ng-controller="RootController" ng-init='user=<%-(user?JSON.stringify(user):"false")%>' ng-view>
+
+		<h3>Lately OAuth Sample</h3>
+
+		<p ng-if="!user.id">	
+			<a href="/auth/lately">Login</a>
+		</p>
+
+		<p ng-if="user.id">		
+			<a href="/profile" ng-class="path=='/profile'? 'text-success':''">Profile</a> | 		
+			<a href="/generate" ng-class="path=='/generate'? 'text-success':''">Generate</a> | 
+			<a href="/logout">Log Out</a>
+		</p>
+
+		<%- body %>
+
+		</div>
+
+	</body>
+
+	<script>
+		'use strict'
+		angular.module('LatelyOauth', [])
+		.controller('RootController', function($scope) {
+			$scope.path=window.location.pathname;
+		})
+		.controller('GenerateController', function($scope,$http) {
+
+			$scope.sampleUrls=[
+'http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships','https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/','http://newsroom.ibm.com/2018-08-13-Travelport-and-IBM-launch-industry-first-AI-travel-platform-to-intelligently-manage-corporate-travel-spend'
+			];
+			$scope.submit=function() {
+				delete $scope.errorMsg
+				delete $scope.statusMsg				
+				$http.post('/generate',{
+					dashboardId:$scope.selectedDashboard._id,
+					campaignId:$scope.selectedCampaign._id,
+					url:$scope.enteredURL || $scope.selectedURL
+				})
+				.then(function(response) {
+					$scope.statusMsg = response.data;
+				},function(err) {
+					$scope.errorMsg = err.data;				
+				});
+
+			};
+		});		
+	</script>
+
+</html>

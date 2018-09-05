@@ -1,0 +1,19 @@
+{
+  "name": "nodejs_oauth2_client",
+  "description": "An oAuth2 services client",
+  "author": "Angel Sanchez <angel.sanchez@intelygenz.com>",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/IGZangelsanchez/nodejs_oauth2.git"
+  },
+  "dependencies": {
+    "connect-ensure-login": "0.1.1",
+    "ejs": "0.8.4",
+    "express": "3.3.5",
+    "express-partials": "0.1.1",
+    "passport": "0.1.17",
+    "passport-oauth": "0.1.15",
+    "request": "^2.88.0"
+  },
+  "engine": "node >= 0.10.15"
+}
