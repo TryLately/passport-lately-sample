@@ -51,7 +51,7 @@ Available Scopes:
 * Generate Content from url to Dashboard & Campaign:
 `http://localhost:8080/content/generate`
 ```json
-{"id":"1","username":"bob","password":"secret","name":"Bob Smith","phoneNumber":"785-873-3930","email":"bob@email.com","address":"968 Sherman Street, Everest","birthday":"02-02-1992"}
+TODO
 ```
 
 You can change the requested scopes in `./config.js`:
