@@ -11,7 +11,7 @@ Configuration
 * Send an email to brian@trylately.com with your Lately username requesting Aplication Partner status; this will be the lately username by which you manage your application definitions.
 * After you receive a response sign-in to your Lately account and navigate to the Application page via the User menu
 * Create an Application record. The callback URL must identically match the URL that is provided by your app when authenticating with Lately. 
-* Copy your Application ID and Secret to ./config.js and run the sample app
+* Copy your Application ID and Secret to ./config.js and run the sample app 
 
 Running the Sample
 

@@ -41,17 +41,25 @@
 			$scope.path=window.location.pathname;
 		})
 		.controller('GenerateController', function($scope,$http) {
-
+			$scope.urls = {}
+			$scope.$watch('urls.selectedURL',function() {
+				$scope.urls.enteredURL=''
+			})			
 			$scope.sampleUrls=[
-'http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships','https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/','http://newsroom.ibm.com/2018-08-13-Travelport-and-IBM-launch-industry-first-AI-travel-platform-to-intelligently-manage-corporate-travel-spend'
+				'http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships',
+				'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/',
+				'http://newsroom.ibm.com/2018-08-13-Travelport-and-IBM-launch-industry-first-AI-travel-platform-to-intelligently-manage-corporate-travel-spend'
 			];
 			$scope.submit=function() {
+
+
 				delete $scope.errorMsg
-				delete $scope.statusMsg				
+				$scope.statusMsg = 'Sending..'
+
 				$http.post('/generate',{
 					dashboardId:$scope.selectedDashboard._id,
 					campaignId:$scope.selectedCampaign._id,
-					url:$scope.enteredURL || $scope.selectedURL
+					url:$scope.urls.enteredURL || $scope.urls.selectedURL
 				})
 				.then(function(response) {
 					$scope.statusMsg = response.data;

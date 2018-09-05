@@ -13,18 +13,18 @@
 
   <div class="form-group" ng-show="selectedCampaign">
     <labe>Enter a URL</label>
-    <input ng-model="enteredURL" ng-model-options="{debounce:1000}" type="text" class="form-control" placeholder="Enter a URL for your Content, or select from the list below">
+    <input ng-model="urls.enteredURL" ng-model-options="{debounce:1000}" type="text" class="form-control" placeholder="Enter a URL for your Content, or select from the list below">
   </div>  
 
   <div class="form-group" ng-show="selectedCampaign">
     <label>Select a URL</label>
-    <select ng-model="selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
+    <select ng-model="urls.selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
   </div>	 
 
   <p class="text-danger" ng-if="errorMsg">Failed: {{errorMsg}}</p>
   <p class="text-success" ng-if="statusMsg">Succeeded: {{statusMsg}}</p>
 
-  <button type="submit" ng-disabled="!selectedURL && !enteredURL" class="btn btn-primary">Submit</button>
+  <button type="submit" ng-disabled="!urls.selectedURL && !urls.enteredURL" class="btn btn-primary">Submit</button>
 
 </form>
 

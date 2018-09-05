@@ -127,6 +127,7 @@ app.get('/logout', function(req, res){
 
 // protected server api
 app.post('/generate', ensureAuthenticated, function (req, res) {
+  console.log('generate',req.body)
   accessProtectedResource( 'POST', '/content/generate', req.body, req.user.accessToken, function (err,result) {
     if (err) {
       console.log('returning', err )
@@ -141,14 +142,18 @@ app.post('/generate', ensureAuthenticated, function (req, res) {
 //   redirecting the user to appexample.com.  After authorization, appexample
 //   will redirect the user back to this application at /auth/appexample/callback
 app.get('/auth/lately',
-  passport.authenticate('Lately', { scope: 'personaldata' }));
+  passport.authenticate('Lately', {  
+    scope: ['lately:user/profile','lately:content/generate'] 
+  }));
 
 // GET /auth/appexample/callback
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/lately/callback', passport.authenticate('Lately', { failureRedirect: '/login' }),
+app.get('/auth/lately/callback', passport.authenticate('Lately', { 
+  //scope: ['lately:user/profile','lately:content/generate'],
+  failureRedirect: '/login' }),
     function(req, res) {
       //console.log('callback with arguments',arguments);
       res.redirect('/profile');
