@@ -21,8 +21,8 @@
     <select ng-model="urls.selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
   </div>	 
 
-  <p class="text-danger" ng-if="errorMsg">Failed: {{errorMsg}}</p>
-  <p class="text-success" ng-if="statusMsg">Succeeded: {{statusMsg}}</p>
+  <p class="text-danger" ng-if="errorMsg">{{errorMsg}}</p>
+  <p class="text-success" ng-if="statusMsg">{{statusMsg}}</p>
 
   <button type="submit" ng-disabled="!urls.selectedURL && !urls.enteredURL" class="btn btn-primary">Submit</button>
 

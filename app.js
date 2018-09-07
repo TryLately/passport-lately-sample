@@ -4,9 +4,6 @@ var express = require('express'),
     passport = require('passport'),
     LatelyStrategy = require('passport-lately'),
     partials = require('express-partials'),
-    http = require('http'),
-    URL = require('url').URL,
-    querystring = require('querystring'),
     config = require('./config'),
     users = require('./db/users.js'),
     request = require('request'),
@@ -22,7 +19,10 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-function accessProtectedResource( method, path, values, accessToken, cb) {
+/**
+Invoke a protected resource at Lately server
+**/
+function invoke( method, path, values, accessToken, cb) {
 
   var options = {
     form: values,
@@ -32,7 +32,6 @@ function accessProtectedResource( method, path, values, accessToken, cb) {
   };
 
   request( options, function(error, response, body) {
-    console.log(options, error, body );
     if ( response.statusCode != 200 ) {
       return cb({statusCode:response.statusCode,statusMessage:response.statusMessage, body:body});
     } else {
@@ -128,7 +127,7 @@ app.get('/logout', function(req, res){
 // protected server api
 app.post('/generate', ensureAuthenticated, function (req, res) {
   console.log('generate',req.body)
-  accessProtectedResource( 'POST', '/content/generate', req.body, req.user.accessToken, function (err,result) {
+  invoke( 'POST', '/content/generate', req.body, req.user.accessToken, function (err,result) {
     if (err) {
       console.log('returning', err )
       res.status(err.statusCode).json(err.body||err.statusMessage)
@@ -151,7 +150,10 @@ app.get('/auth/lately',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/lately/callback', passport.authenticate('Lately', { 
+app.get('/auth/lately/callback', function(req,res,next) {
+console.log('lately callback', req.url, req.query )
+next()
+}, passport.authenticate('Lately', { 
   //scope: ['lately:user/profile','lately:content/generate'],
   failureRedirect: '/login' }),
     function(req, res) {
@@ -160,9 +162,7 @@ app.get('/auth/lately/callback', passport.authenticate('Lately', {
     }
 );
 
-//
-// Refresh token
-//
+/** Refresh token - not currently needed
 app.get('/refresh_token', ensureAuthenticated, function (req, res) {
 
   var post_data = querystring.stringify({
@@ -208,7 +208,8 @@ app.get('/refresh_token', ensureAuthenticated, function (req, res) {
   post_req.end();
 
 });
+**/
 
 app.listen(8080);
 
-console.log("client listening on http://localhost:8080");
+console.log("Lately OAuth Sample listening on http://localhost:8080");

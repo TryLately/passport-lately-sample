@@ -1,16 +1,17 @@
 
 module.exports = {
 
-	// for development
-	serverBaseURL:'http://localhost:3000',
-	authorizationURL:'http://localhost:3000/v1/apps/oauth/authorize',
-	userProfileURL:'http://localhost:3000/v1/apps/user/profile',
-	tokenURL:'http://localhost:3000/v1/apps/oauth/token',
-
-	// required
-	clientID :"5b8e948a4e78b869442ef90a",
-	clientSecret :"pT9zGq3SHbtxlL2oIsqXds6IhdITJtAxgFEfy3eHxD",
+	// Your Application config (required)
+	clientID :"5b92e1e0b3bcee35ed11b640",
+	clientSecret :"THFaByIFH1hsr9CGMorJugIOvfaelSP3OznEb17RCN",
 	callbackURL :'http://localhost:8080/auth/lately/callback',
+
+	// passport-lately config defaults to https://www.trylately.com,
+	// but for development override to access dev.trylately.com
+	serverBaseURL:'https://dev.trylately.com',
+	authorizationURL:'https://dev.trylately.com/v1/apps/oauth/authorize',
+	userProfileURL:'https://dev.trylately.com/v1/apps/user/profile',
+	tokenURL:'https://dev.trylately.com/v1/apps/oauth/token',
 
 }; 
 
