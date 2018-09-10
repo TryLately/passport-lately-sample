@@ -16,18 +16,18 @@ This is a simple web application demonstrating [Passport](https://github.com/jar
 
 ### Create Application in Lately and configure client
 
-* Signup for a Lately account on dev.trylately.com; this will be the user account by which you administer your application definitions in development. 
-* Send an email to brian@trylately.com requesting Aplication Partner status; include the Lately username you wish to use for administering your Apps.
-* When you receive a response sign-in to your Lately account and navigate to the Application page via the User menu (hover your user avatar at top right and select Applications)
-* Create an Application record with the callback url http://localhost:8080/auth/lately/callback (matching the sample app config).
-* From the applications list copy your Application ID and Secret to ./config.js in the sample app.
+* If you don't already have one, signup for a Lately account on https://www.trylately.com; this will be the user account by which you administer your application definitions. 
+* Send an email to brian@trylately.com with your Lately username and one or more github usernames for your developers;  we'll enable Applications integration for you in Lately and add the git users to the sample repo.   
+* Sign-in to your Lately account and navigate to the Application page via the User menu (hover your user avatar at top right and select Applications)
+* Create an Application record for the sample app with any name, but specify the callback url http://localhost:8080/auth/lately/callback to match the sample app listen route. Save the record, and make note of the clientID and secret for your app in the list. 
+* Obtain the sample application using git clone https://github.com/TryLately/passport-lately-sample , this will create a directory named passport-lately-sample. Change to that directory and run `npm install` to install dependencies. 
+* Copy your clientID and secret from step 4 to the ./config.js file in the sample app.
 
 ### Running the App
 
-* From the installation directory run `node app.js`
-* Open a web browser and visit: `http://localhost:8080` . Select Login to start the OAuth flow with the configured Lately server (dev.trylately.com); login and allow the requested permissions. 
-* On completion the server shows the user profile returned by Lately, with a list of Dashboards and Campaigns accessible by that user. 
-* The Generate link in the sample app top menu links to a simple app that will guide you through a selection of Dashboard, Campaign and Link for exercising the 'content/generate' api. 
+* In the installation directory run `node app.js` 
+* Open the sample app in a brower at http://localhost:8080 and select Login to authenticate against Lately; then allow the requested permissions to grant your Application access to our api's.  
+* After login the sample app displays the user profile, which includes the Dashboards and Campaigns they have access to. You will also see a Generate option in the sample app - this links to a simple wizard that will guide you through content generation by selecting a Dashboard, Campaign and URL for the content source.  
 
 ### API Invocation
 
@@ -86,18 +86,6 @@ POST `<lately server>/v1/apps/content/generate`
 * Sample Response
 
  200 {"status":"success","generated":30}
-
-## Passport-Lately in Production 
-
-* By default this application access dev.trylately.com for OAuth authentication and authorization; to access the production server at www.trylately.com remove the following entries from ./config.js: 
-
-  serverBaseURL
-  authorizationURL
-  userProfileURL
-  tokenURL
-
-* Note that the development and production servers do not share a common database - therefore when accessing the production server at www.trylately.com a separate Application definition will be required there.
-
 
 ## License
 
