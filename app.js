@@ -4,6 +4,7 @@ var express = require('express'),
     passport = require('passport'),
     PassportLately = require('passport-lately'),
     partials = require('express-partials'),
+    encryptor = require('./encryptor'),
     config = require('./config'),
     users = require('./db/users.js'),
     config = require('./config');
@@ -43,7 +44,7 @@ passport.use('Lately',new LatelyStrategy(config, function(accessToken, refreshTo
     // asynchronous verification, for effect...
     // http://howtonode.org/understanding-process-next-tick
     process.nextTick(function () {
-      users.updateOrCreate(profile, accessToken, refreshToken, function(err, user) {
+      users.updateOrCreate(profile, encryptor.encrypt(accessToken), encryptor.encrypt(refreshToken), function(err, user) {
         if(err) { throw err; }
         done(null, user);
       });    
@@ -116,7 +117,7 @@ app.get('/auth/lately/callback', passport.authenticate('Lately', {
 API ROUTES
 **/
 app.get('/api/profile',ensureAuthenticated, function(req,res,next) {
-  var api = new LatelyApi( req.user.accessToken, config )
+  var api = new LatelyApi( encryptor.decrypt(req.user.accessToken), config )
   api.get('/user/profile',function(err,results) {
     if ( err ) return next(err)
     else res.json(results)
@@ -124,7 +125,7 @@ app.get('/api/profile',ensureAuthenticated, function(req,res,next) {
 })
 
 app.get('/api/dashboards',ensureAuthenticated, function(req,res,next) {
-  var api = new LatelyApi( req.user.accessToken, config )
+  var api = new LatelyApi( encryptor.decrypt(req.user.accessToken), config )
   api.get('/user/dashboards',function(err,results) {
     if ( err ) return next(err)
     else res.json(results)
@@ -133,11 +134,9 @@ app.get('/api/dashboards',ensureAuthenticated, function(req,res,next) {
 
 // generate content via api
 app.post('/api/generate', ensureAuthenticated, function (req, res) {
-  console.log('generate',req.body)
-  var api = new LatelyApi( req.user.accessToken, config )  
+  var api = new LatelyApi( encryptor.decrypt(req.user.accessToken), config )  
   api.post('/content/generate', req.body, function (err,result) {
     if (err) {
-      console.log('returning', err )
       res.status(err.statusCode).json(err.body||err.statusMessage)
     } else res.send(result);
   });
