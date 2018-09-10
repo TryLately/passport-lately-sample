@@ -1,4 +1,4 @@
-# Passport-lately-client
+# Passport-lately-sample
 
 This is a simple web application demonstrating [Passport](https://github.com/jaredhanson/passport) authentication against Lately and invocation of passport protected API's.  
 
