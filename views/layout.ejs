@@ -8,6 +8,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-route.min.js"></script>
 
 	</head>
 
@@ -24,6 +25,7 @@
 
 		<p ng-if="user.id">		
 			<a href="/profile" ng-class="path=='/profile'? 'text-success':''">Profile</a> | 		
+			<a href="/dashboards" ng-class="path=='/dashboards'? 'text-success':''">Dashboards</a> | 			
 			<a href="/generate" ng-class="path=='/generate'? 'text-success':''">Generate</a> | 
 			<a href="/logout">Log Out</a>
 		</p>
@@ -34,41 +36,6 @@
 
 	</body>
 
-	<script>
-		'use strict'
-		angular.module('LatelyOauth', [])
-		.controller('RootController', function($scope) {
-			$scope.path=window.location.pathname;
-		})
-		.controller('GenerateController', function($scope,$http) {
-			$scope.urls = {}
-			$scope.$watch('urls.selectedURL',function() {
-				$scope.urls.enteredURL=''
-			})			
-			$scope.sampleUrls=[
-				'http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships',
-				'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/',
-				'http://newsroom.ibm.com/2018-08-13-Travelport-and-IBM-launch-industry-first-AI-travel-platform-to-intelligently-manage-corporate-travel-spend'
-			];
-			$scope.submit=function() {
-
-
-				delete $scope.errorMsg
-				$scope.statusMsg = 'Sending..'
-
-				$http.post('/generate',{
-					dashboardId:$scope.selectedDashboard._id,
-					campaignId:$scope.selectedCampaign._id,
-					url:$scope.urls.enteredURL || $scope.urls.selectedURL
-				})
-				.then(function(response) {
-					$scope.statusMsg = response.data;
-				},function(err) {
-					$scope.errorMsg = err.data;				
-				});
-
-			};
-		});		
-	</script>
+	<script src="./app.js"></script>
 
 </html>

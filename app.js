@@ -2,48 +2,18 @@
 
 var express = require('express'),
     passport = require('passport'),
-    LatelyStrategy = require('passport-lately'),
+    PassportLately = require('passport-lately'),
     partials = require('express-partials'),
     config = require('./config'),
     users = require('./db/users.js'),
-    request = require('request'),
     config = require('./config');
 
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
+var LatelyStrategy = PassportLately.Strategy
+var LatelyApi = PassportLately.Api    
 
 /**
-Invoke a protected resource at Lately server
+PASSPORT CONFIG
 **/
-function invoke( method, path, values, accessToken, cb) {
-
-  var options = {
-    form: values,
-    method: method,         
-    url:  config.serverBaseURL + '/v1/apps' + path,
-    headers: {'Authorization': 'Bearer ' + accessToken}
-  };
-
-  request( options, function(error, response, body) {
-    if ( response.statusCode != 200 ) {
-      return cb({statusCode:response.statusCode,statusMessage:response.statusMessage, body:body});
-    } else {
-      try {
-        return cb( false, JSON.parse(body) );        
-      } catch(err) { 
-        return cb( new Error(`Failed to parse response ${body} : ${err}` ) );
-      }
-    }
-  });
-
-}
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -81,6 +51,20 @@ passport.use('Lately',new LatelyStrategy(config, function(accessToken, refreshTo
   }
 ));
 
+/**
+EXPRESS CONFIG
+**/
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
+
 var app = express();
 
 // configure Express
@@ -101,39 +85,9 @@ app.configure(function() {
   app.use(express.static(__dirname + '/public'));
 });
 
-/** view routes **/
-app.get('/', function(req, res){
-  res.render('index', { user: req.user });
-});
-
-app.get('/login', function(req, res){
-  res.render('index', { user: req.user });
-});
-
-app.get('/profile', ensureAuthenticated, function(req, res){
-  res.render('profile', { user: req.user });
-});
-
-app.get('/generate', ensureAuthenticated, function(req, res){
-  res.render('generate', { user: req.user });
-});
-
-app.get('/logout', function(req, res){
-  users.clear();
-  req.logout();
-  res.redirect('/login');
-});
-
-// protected server api
-app.post('/generate', ensureAuthenticated, function (req, res) {
-  console.log('generate',req.body)
-  invoke( 'POST', '/content/generate', req.body, req.user.accessToken, function (err,result) {
-    if (err) {
-      console.log('returning', err )
-      res.status(err.statusCode).json(err.body||err.statusMessage)
-    } else res.send(result);
-  });
-});
+/**
+PASSPORT ROUTES
+**/
 
 // GET /auth/appexample
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -142,7 +96,7 @@ app.post('/generate', ensureAuthenticated, function (req, res) {
 //   will redirect the user back to this application at /auth/appexample/callback
 app.get('/auth/lately',
   passport.authenticate('Lately', {  
-    scope: ['lately:user/profile','lately:content/generate'] 
+    scope: ['lately:user/profile','lately:user/dashboards','lately:content/generate'] 
   }));
 
 // GET /auth/appexample/callback
@@ -150,11 +104,7 @@ app.get('/auth/lately',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/lately/callback', function(req,res,next) {
-console.log('lately callback', req.url, req.query )
-next()
-}, passport.authenticate('Lately', { 
-  //scope: ['lately:user/profile','lately:content/generate'],
+app.get('/auth/lately/callback', passport.authenticate('Lately', { 
   failureRedirect: '/login' }),
     function(req, res) {
       //console.log('callback with arguments',arguments);
@@ -162,53 +112,65 @@ next()
     }
 );
 
-/** Refresh token - not currently needed
-app.get('/refresh_token', ensureAuthenticated, function (req, res) {
-
-  var post_data = querystring.stringify({
-    grant_type : 'refresh_token',    
-    client_id : config.clientID,
-    client_secret : config.clientSecret,
-    refresh_token : req.user.refreshToken
-  });
-
-  var frags = new URL(config.tokenURL);
-
-  var options = {
-    host: frags.hostname,
-    path: frags.pathname,
-    port: frags.port,
-    method: 'POST',
-    headers: {
-      'Content-Length': post_data.length,
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  };
-
-  var post_req = http.request(options, function (response) {
-    var str = '';
-
-    response.setEncoding('utf8');
-    response.on('data', function (chunk) {
-      str += chunk;
-    });
-
-    response.on('end', function () {
-      
-      var data = JSON.parse(str);
-      req.user.accessToken = data.access_token;
-      req.user.refreshToken = data.refresh_token;
-
-      res.send(str);
-    });
-  });
-
-  // post the data
-  post_req.write(post_data);
-  post_req.end();
-
-});
+/**
+API ROUTES
 **/
+app.get('/api/profile',ensureAuthenticated, function(req,res,next) {
+  var api = new LatelyApi( req.user.accessToken, config )
+  api.get('/user/profile',function(err,results) {
+    if ( err ) return next(err)
+    else res.json(results)
+  })
+})
+
+app.get('/api/dashboards',ensureAuthenticated, function(req,res,next) {
+  var api = new LatelyApi( req.user.accessToken, config )
+  api.get('/user/dashboards',function(err,results) {
+    if ( err ) return next(err)
+    else res.json(results)
+  })
+})
+
+// generate content via api
+app.post('/api/generate', ensureAuthenticated, function (req, res) {
+  console.log('generate',req.body)
+  var api = new LatelyApi( req.user.accessToken, config )  
+  api.post('/content/generate', req.body, function (err,result) {
+    if (err) {
+      console.log('returning', err )
+      res.status(err.statusCode).json(err.body||err.statusMessage)
+    } else res.send(result);
+  });
+});
+
+/** 
+VIEW ROUTES
+**/
+app.get('/', function(req, res){
+  res.render('index', { user: req.user });
+});
+
+app.get('/login', function(req, res){
+  res.render('index', { user: req.user });
+});
+
+app.get('/logout', function(req, res){
+  users.clear();
+  req.logout();
+  res.redirect('/login');
+});
+
+app.get('/profile', ensureAuthenticated, function(req, res){
+  res.render('profile', { user: req.user });
+});
+
+app.get('/dashboards', ensureAuthenticated, function(req, res){
+  res.render('dashboards', { user: req.user });
+});
+
+app.get('/generate', ensureAuthenticated, function(req, res){
+  res.render('generate', { user: req.user });
+});
 
 app.listen(8080);
 

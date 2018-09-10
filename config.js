@@ -1,17 +1,9 @@
 
 module.exports = {
 
-	// Application config (required)
-	clientID :'',
-	clientSecret :'',
+	clientID :'5b96ae546d5a195ddcb09c28',
+	clientSecret :'boUAql2WUKwx8uW59DUoyHt1H2JRYThEFkj3x1dtFS',
 	callbackURL :'http://localhost:8080/auth/lately/callback',
-
-	/** uncomment to override server config  
-	serverBaseURL:'https://dev.trylately.com',
-	authorizationURL:'https://dev.trylately.com/v1/apps/oauth/authorize',
-	userProfileURL:'https://dev.trylately.com/v1/apps/user/profile',
-	tokenURL:'https://dev.trylately.com/v1/apps/oauth/token',
-	**/
 
 }; 
 
