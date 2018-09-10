@@ -1,6 +1,6 @@
-# Passport-lately-sample
+# Passport-lately-client
 
-This is a simple node.js based web application demonstrating creation of an OAuth2 Application Client within lately, and [Passport](https://github.com/jaredhanson/passport) authentication and authorization against Lately API's. 
+This is a simple web application demonstrating [Passport](https://github.com/jaredhanson/passport) authentication against Lately and invocation of passport protected API's.  
 
 ## Requirements
 
@@ -8,27 +8,28 @@ This is a simple node.js based web application demonstrating creation of an OAut
 
 ## Install
 
-* Create a directory for the sample app and cd to that directory
+* Create a directory for the installation and cd to that directory
 * Obtain the sample app: `npm install lately-passport-example`
 * Install all nodejs modules: `npm install` 
 
 ## Usage
 
-### Create Application in Lately and configure sample app
+### Create Application in Lately and configure client
 
-* If you don't already have a Lately account signup at dev.trylately.com - this will be the user account by which you administer your application definitions. 
+* Signup for a Lately account on dev.trylately.com; this will be the user account by which you administer your application definitions in development. 
 * Send an email to brian@trylately.com requesting Aplication Partner status; include the Lately username you wish to use for administering your Apps.
 * When you receive a response sign-in to your Lately account and navigate to the Application page via the User menu (hover your user avatar at top right and select Applications)
 * Create an Application record with the callback url http://localhost:8080/auth/lately/callback (matching the sample app config).
 * From the applications list copy your Application ID and Secret to ./config.js in the sample app.
 
-## Running the Sample
+### Running the App
 
-* From the sample app installation directory run `node app.js`
-* Open a web browser and visit: `http://localhost:8080/login` . Select Login with Lately and login with any Lately user; then allow the requested permissions. The server shows the user profile returned by Lately, with a list of Dashboards and Campaigns accessible by that user. 
+* From the installation directory run `node app.js`
+* Open a web browser and visit: `http://localhost:8080` . Select Login to start the OAuth flow with the configured Lately server (dev.trylately.com); login and allow the requested permissions. 
+* On completion the server shows the user profile returned by Lately, with a list of Dashboards and Campaigns accessible by that user. 
 * The Generate link in the sample app top menu links to a simple app that will guide you through a selection of Dashboard, Campaign and Link for exercising the 'content/generate' api. 
 
-## API Invocation
+### API Invocation
 
 * Lately authentiation returns an access token which must be provided as an Authorization header to access server API's.
 
@@ -85,6 +86,18 @@ POST `<lately server>/v1/apps/content/generate`
 * Sample Response
 
  200 {"status":"success","generated":30}
+
+## Passport-Lately in Production 
+
+* By default this application access dev.trylately.com for OAuth authentication and authorization; to access the production server at www.trylately.com remove the following entries from ./config.js: 
+
+  serverBaseURL
+  authorizationURL
+  userProfileURL
+  tokenURL
+
+* Note that the development and production servers do not share a common database - therefore when accessing the production server at www.trylately.com a separate Application definition will be required there.
+
 
 ## License
 
