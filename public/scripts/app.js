@@ -71,7 +71,7 @@ $routeProvider
   })  
 
   .when('/app/login', {    
-    templateUrl: '/views/login.html',
+    templateUrl: '/views/index.html',
   })      
 
   .otherwise({
