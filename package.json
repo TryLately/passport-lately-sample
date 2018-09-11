@@ -1,11 +1,11 @@
 {
   "version": "1.0.1",
-  "name": "lately-oauth-example",
-  "description": "OAuth2 services client for Lately",
+  "name": "passport-lately-sample",
+  "description": "OAuth2 sample for Lately",
   "author": "Greg Hamel <greg@trylately.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TryLately/passport-lately-example"
+    "url": "https://github.com/TryLately/passport-lately-sample"
   },
   "dependencies": {
     "connect-ensure-login": "0.1.1",
