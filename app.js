@@ -63,7 +63,7 @@ EXPRESS CONFIG
 //   login page.
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/app/login');
 }
 
 var app = express();
@@ -106,10 +106,10 @@ app.get('/auth/lately',
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/lately/callback', passport.authenticate('Lately', { 
-  failureRedirect: '/login' }),
+  failureRedirect: '/app/login' }),
     function(req, res) {
       //console.log('callback with arguments',arguments);
-      res.redirect('/profile');
+      res.redirect('/app/profile');
     }
 );
 
@@ -145,30 +145,20 @@ app.post('/api/generate', ensureAuthenticated, function (req, res) {
 /** 
 VIEW ROUTES
 **/
-app.get('/', function(req, res){
-  res.render('index', { user: req.user });
-});
 
-app.get('/login', function(req, res){
+
+app.get('/app/*', function(req, res){
   res.render('index', { user: req.user });
 });
 
 app.get('/logout', function(req, res){
   users.clear();
   req.logout();
-  res.redirect('/login');
+  res.redirect('/app/login');
 });
 
-app.get('/profile', ensureAuthenticated, function(req, res){
-  res.render('profile', { user: req.user });
-});
-
-app.get('/dashboards', ensureAuthenticated, function(req, res){
-  res.render('dashboards', { user: req.user });
-});
-
-app.get('/generate', ensureAuthenticated, function(req, res){
-  res.render('generate', { user: req.user });
+app.get('/', function(req, res){
+  res.render('index', { user: req.user });
 });
 
 app.listen(8080);

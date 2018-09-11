@@ -4,6 +4,9 @@
 	<head>
 
 		<title>Passport Lately</title>
+
+		<base href="/"></head>
+
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -15,27 +18,27 @@
 	<body ng-app="LatelyOauth">
 
 		<br>
-		<div class="container" ng-controller="RootController" ng-init='user=<%-(user?JSON.stringify(user):"false")%>' ng-view>
+		<div class="container" ng-controller="RootController" ng-init='user=<%-(user?JSON.stringify(user):"false")%>'>
 
-		<h3>Passport Lately</h3>
+			<h3>Passport Lately</h3>
 
-		<p ng-if="!user.id">	
-			<a href="/auth/lately">Login</a>
-		</p>
+			<p ng-if="!user.id">	
+				<a ng-click="login()">Login</a>
+			</p>
 
-		<p ng-if="user.id">		
-			<a href="/profile" ng-class="path=='/profile'? 'text-success':''">Profile</a> | 		
-			<a href="/dashboards" ng-class="path=='/dashboards'? 'text-success':''">Dashboards</a> | 			
-			<a href="/generate" ng-class="path=='/generate'? 'text-success':''">Generate</a> | 
-			<a href="/logout">Log Out</a>
-		</p>
+			<p ng-if="user.id">		
+				<a href="/app/profile" ng-class="location.path()=='/app/profile'? 'text-success':''">Profile</a> | 		
+				<a href="/app/dashboards" ng-class="location.path()=='/app/dashboards'? 'text-success':''">Dashboards</a> | 			
+				<a href="/app/generate" ng-class="location.path()=='/app/generate'? 'text-success':''">Generate</a> | 
+				<a ng-click="logout()">Log Out</a>
+			</p>
 
-		<%- body %>
+			<div ng-view></div>
 
 		</div>
 
 	</body>
 
-	<script src="./app.js"></script>
+	<script src="./scripts/app.js"></script>
 
 </html>

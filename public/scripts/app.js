@@ -1,7 +1,13 @@
 'use strict'
-angular.module('LatelyOauth', [])
-.controller('RootController', function($scope) {
-	$scope.path=window.location.pathname;
+angular.module('LatelyOauth', ['ngRoute'])
+.controller('RootController', function($scope,$location) {
+	$scope.location=$location;
+	$scope.login = function() {
+		window.location.href="/auth/lately"
+	}
+	$scope.logout = function() {
+		window.location.href="/logout"
+	}	
 })
 .controller('ProfileController',function($scope,$http) {
 	$http.get('/api/profile').then(function(response) {
@@ -47,38 +53,32 @@ angular.module('LatelyOauth', [])
 
 /**
 Route configuration
-**
+**/
 .config(function ($routeProvider, $locationProvider) {
 
 $routeProvider
 
-  .when('/', {  
-    reloadOnSearch: false,
-    templateUrl: '/index.html',
+  .when('/app/profile', {  
+    templateUrl: '/views/profile.html',
   })  
 
-  .when('/profile', {  
-    reloadOnSearch: false,
-    templateUrl: '/profile.html',
-  })  
-
-  .when('/dashboards', {  
-    reloadOnSearch: false,
-    templateUrl: '/dashboards.html',
+  .when('/app/dashboards', {  
+    templateUrl: '/views/dashboards.html',
   })    
 
-  .when('/generate', {    
-    templateUrl: '/generate.html',
-    reloadOnSearch: false     
+  .when('/app/generate', {    
+    templateUrl: '/views/generate.html',
   })  
 
+  .when('/app/login', {    
+    templateUrl: '/views/login.html',
+  })      
+
   .otherwise({
-    redirectTo:'/',
-    reloadOnSearch: false    
+    redirectTo:'/app/login',
   });
 
- $locationProvider.html5Mode(true);      
+  $locationProvider.html5Mode(true);      
 
 })
 
-**/
