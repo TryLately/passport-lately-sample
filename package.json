@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": "passport-lately-sample",
   "description": "OAuth2 sample for Lately",
   "author": "Greg Hamel <greg@trylately.com>",
