@@ -12,14 +12,19 @@
   </div>	  
 
   <div class="form-group" ng-show="selectedCampaign">
-    <labe>Enter a URL</label>
+    <labe>Enter a URL to generate from</label>
     <input ng-model="urls.enteredURL" ng-model-options="{debounce:1000}" type="text" class="form-control" placeholder="Enter a URL for your Content, or select from the list below">
   </div>  
 
   <div class="form-group" ng-show="selectedCampaign">
-    <label>Select a URL</label>
+    <label>Select a URL to generate from</label>
     <select ng-model="urls.selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
   </div>	 
+
+  <div class="form-group" ng-show="selectedCampaign">
+    <label>Post link (overrides generated link)</label>
+    <input class="form-control" ng-model="urls.altURL"></select>
+  </div>     
 
   <p class="text-danger" ng-if="errorMsg">{{errorMsg}}</p>
   <p class="text-success" ng-if="statusMsg">{{statusMsg}}</p>

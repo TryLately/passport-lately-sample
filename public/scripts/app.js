@@ -35,12 +35,13 @@ angular.module('LatelyOauth', ['ngRoute'])
 	$scope.submit=function() {
 
 		delete $scope.errorMsg
-		$scope.statusMsg = 'Sending..'
+		$scope.statusMsg = 'Sending..' 
 
 		$http.post('/api/generate',{
+			url:$scope.urls.enteredURL || $scope.urls.selectedURL,			
 			dashboardId:$scope.selectedDashboard._id,
 			campaignId:$scope.selectedCampaign._id,
-			url:$scope.urls.enteredURL || $scope.urls.selectedURL
+			alt_link:$scope.urls.altURL
 		})
 		.then(function(response) {
 			$scope.statusMsg = response.data;
