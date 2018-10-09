@@ -38,7 +38,7 @@ angular.module('LatelyOauth', ['ngRoute'])
 		$scope.statusMsg = 'Sending..' 
 
 		$http.post('/api/generate',{
-			url:$scope.urls.enteredURL || $scope.urls.selectedURL,			
+			link:$scope.urls.enteredURL || $scope.urls.selectedURL,			
 			dashboardId:$scope.selectedDashboard._id,
 			campaignId:$scope.selectedCampaign._id,
 			alt_link:$scope.urls.altURL
