@@ -81,13 +81,14 @@ POST `<lately server>/v1/apps/content/generate`
 { dashboardId: '5b1009fa580fc1118c108d0f',
   campaignId: '5b1009fb580fc1118c108d12',
   alt_link: 'https://my.url.to.appear.in.post',
-  link: 'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/' 
+  link: 'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/',
+  return_posts: true
 }
 ```
 
 * Sample Response
 
- 200 {"statusCode":200,"statusMessage":"generated 32 posts","generated":32}
+ 200 {"statusCode":200,"statusMessage":"generated 32 posts","generated":32, posts: [{content: ''}]}
 
 ## License
 
