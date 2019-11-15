@@ -97,7 +97,7 @@ PASSPORT ROUTES
 //   will redirect the user back to this application at /auth/appexample/callback
 app.get('/auth/lately',
   passport.authenticate('Lately', {  
-    scope: ['lately:user/profile','lately:user/dashboards','lately:content/generate'] 
+    scope: ['lately:user/profile','lately:user/dashboards','lately:posts/generate','lately:content/generate'] 
   }));
 
 // GET /auth/appexample/callback
@@ -136,6 +136,16 @@ app.get('/api/dashboards',ensureAuthenticated, function(req,res,next) {
 app.post('/api/generate', ensureAuthenticated, function (req, res) {
   var api = new LatelyApi( encryptor.decrypt(req.user.accessToken), config )  
   api.post('/content/generate', req.body, function (err,result) {
+    if (err) {
+      res.status(err.statusCode).json(err.body||err.statusMessage)
+    } else res.send(result);
+  });
+});
+
+// generate posts via api
+app.post('/api/posts', ensureAuthenticated, function (req, res) {
+  var api = new LatelyApi( encryptor.decrypt(req.user.accessToken), config )  
+  api.post('/posts/generate', req.body, function (err,result) {
     if (err) {
       res.status(err.statusCode).json(err.body||err.statusMessage)
     } else res.send(result);

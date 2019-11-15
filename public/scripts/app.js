@@ -19,7 +19,7 @@ angular.module('LatelyOauth', ['ngRoute'])
 		$scope.dashboards = response.data
 	})
 })	
-.controller('GenerateController', function($scope,$http) {
+.controller('GenContentController', function($scope,$http) {
 	$scope.urls = {}
 	$scope.$watch('urls.selectedURL',function() {
 		$scope.urls.enteredURL=''
@@ -51,6 +51,38 @@ angular.module('LatelyOauth', ['ngRoute'])
 
 	};
 })
+.controller('GenPostsController', function($scope,$http) {
+	$scope.urls = {}
+	$scope.$watch('urls.selectedURL',function() {
+		$scope.urls.enteredURL=''
+	})			
+	$scope.sampleUrls=[
+		'http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships',
+		'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/',
+		'http://newsroom.ibm.com/2018-08-13-Travelport-and-IBM-launch-industry-first-AI-travel-platform-to-intelligently-manage-corporate-travel-spend'
+	];
+	$http.get('/api/dashboards').then(function(response) {
+		$scope.dashboards = response.data
+	})			
+	$scope.submit=function() {
+
+		delete $scope.errorMsg
+		$scope.statusMsg = 'Sending..' 
+
+		$http.post('/api/posts',{
+			link:$scope.urls.enteredURL || $scope.urls.selectedURL,			
+			dashboardId:$scope.selectedDashboard._id,
+			campaignId:$scope.selectedCampaign._id,
+			alt_link:$scope.urls.altURL
+		})
+		.then(function(response) {
+			$scope.statusMsg = response.data;
+		},function(err) {
+			$scope.errorMsg = err.data;				
+		});
+
+	};
+})
 
 /**
 Route configuration
@@ -67,9 +99,13 @@ $routeProvider
     templateUrl: '/views/dashboards.html',
   })    
 
-  .when('/app/generate', {    
-    templateUrl: '/views/generate.html',
+  .when('/app/gencontent', {    
+    templateUrl: '/views/gencontent.html',
   })  
+
+  .when('/app/genposts', {    
+    templateUrl: '/views/genposts.html',
+  })    
 
   .when('/app/login', {    
     templateUrl: '/views/index.html',
