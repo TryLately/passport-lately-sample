@@ -1,5 +1,5 @@
 
-<form ng-controller="GenerateController" ng-submit="submit()" >
+<form ng-controller="GeneratePostsController" ng-submit="submit()" >
 
   <div class="form-group" ng-show="dashboards">
     <label>Select a Dashboard</label>
@@ -7,27 +7,22 @@
   </div>
 
   <div class="form-group" ng-show="selectedDashboard">
-    <label>Select a Campaign</label>
-    <select ng-model="selectedCampaign" ng-options="campaign.shortName for campaign in selectedDashboard.campaigns" class="form-control"></select>
-  </div>	  
-
-  <div class="form-group" ng-show="selectedCampaign">
     <labe>Enter a URL to generate from</label>
     <input ng-model="urls.enteredURL" ng-model-options="{debounce:1000}" type="text" class="form-control" placeholder="Enter a URL for your Content, or select from the list below">
   </div>  
 
-  <div class="form-group" ng-show="selectedCampaign">
+  <div class="form-group" ng-show="selectedDashboard">
     <label>Select a URL to generate from</label>
     <select ng-model="urls.selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
   </div>	 
 
-  <div class="form-group" ng-show="selectedCampaign">
-    <label>Post link (overrides generated link)</label>
-    <input class="form-control" ng-model="urls.altURL"></select>
-  </div>     
-
   <p class="text-danger" ng-if="errorMsg">{{errorMsg}}</p>
-  <p class="text-success" ng-if="statusMsg">{{statusMsg}}</p>
+  <div ng-if="response">
+    <h3>Generated {{response.posts.length}} posts</h3>
+    <p ng-repeat="msg in response.posts">
+      <span>{{msg}}</span>
+    </p>
+  </div>
 
   <button type="submit" ng-disabled="!urls.selectedURL && !urls.enteredURL" class="btn btn-primary">Submit</button>
 
