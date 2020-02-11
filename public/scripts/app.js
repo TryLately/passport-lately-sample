@@ -19,7 +19,7 @@ angular.module('LatelyOauth', ['ngRoute'])
 		$scope.dashboards = response.data
 	})
 })	
-.controller('GenerateController', function($scope,$http) {
+.controller('GenerateContentController', function($scope,$http) {
 	$scope.urls = {}
 	$scope.$watch('urls.selectedURL',function() {
 		$scope.urls.enteredURL=''
@@ -37,7 +37,7 @@ angular.module('LatelyOauth', ['ngRoute'])
 		delete $scope.errorMsg
 		$scope.statusMsg = 'Sending..' 
 
-		$http.post('/api/generate',{
+		$http.post('/api/content/generate',{
 			link:$scope.urls.enteredURL || $scope.urls.selectedURL,			
 			dashboardId:$scope.selectedDashboard._id,
 			campaignId:$scope.selectedCampaign._id,
@@ -48,6 +48,44 @@ angular.module('LatelyOauth', ['ngRoute'])
 		},function(err) {
 			$scope.errorMsg = err.data;				
 		});
+
+	};
+})
+.controller('GeneratePostsController', function($scope,$http) {
+	$scope.urls = {}
+	$scope.$watch('urls.selectedURL',function() {
+		$scope.urls.enteredURL=''
+	})			
+	$scope.sampleUrls=[
+		'http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships',
+		'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/',
+		'http://newsroom.ibm.com/2018-08-13-Travelport-and-IBM-launch-industry-first-AI-travel-platform-to-intelligently-manage-corporate-travel-spend'
+	];
+	$http.get('/api/dashboards').then(function(response) {
+		$scope.dashboards = response.data
+	})			
+	$scope.submit=function() {
+
+		$scope.errorMsg = false
+		$scope.response = {}
+		$scope.busy = true 
+
+		console.log('busy')
+
+		$http.post('/api/posts/generate',{
+			link:$scope.urls.enteredURL || $scope.urls.selectedURL,			
+			dashboardId:$scope.selectedDashboard._id,
+		})
+		.then(function(response) {
+			console.log('generatePosts returned',response.data)
+			$scope.response = response.data;
+		},function(err) {
+			$scope.statusMessage = ''
+			$scope.errorMsg = err.data;				
+		}).finally(function(){
+			console.log('not busy')
+			$scope.busy = false
+		})
 
 	};
 })
@@ -67,8 +105,12 @@ $routeProvider
     templateUrl: '/views/dashboards.html',
   })    
 
-  .when('/app/generate', {    
-    templateUrl: '/views/generate.html',
+  .when('/app/content/generate', {    
+    templateUrl: '/views/content.html',
+  })  
+
+  .when('/app/posts/generate', {    
+    templateUrl: '/views/posts.html',
   })  
 
   .when('/app/login', {    

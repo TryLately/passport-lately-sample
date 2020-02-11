@@ -1,0 +1,35 @@
+
+<form ng-controller="GeneratePostsController" ng-submit="submit()" >
+
+  <div class="form-group" ng-show="dashboards">
+    <label>Select a Dashboard</label>
+    <select ng-model="selectedDashboard" ng-options="dashboard.name for dashboard in dashboards" class="form-control"></select>
+  </div>
+
+  <div class="form-group" ng-show="selectedDashboard">
+    <labe>Enter a URL to generate from</label>
+    <input ng-model="urls.enteredURL" ng-model-options="{debounce:1000}" type="text" class="form-control" placeholder="Enter a URL for your Content, or select from the list below">
+  </div>  
+
+  <div class="form-group" ng-show="selectedDashboard">
+    <label>Select a URL to generate from</label>
+    <select ng-model="urls.selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
+  </div>	 
+
+  <p>
+    <button type="submit" ng-disabled="!urls.selectedURL && !urls.enteredURL" class="btn btn-primary">Submit</button>
+    <span ng-if="busy">Sending..</span>
+    <span class="text-danger" ng-if="errorMsg">{{errorMsg}}</span>    
+    <i ng-if="busy" class="fa fa-spinner fa-spin"></i>
+  </p>
+
+  <div ng-if="response && !busy">
+    <h3>Generated {{response.posts.length}} posts</h3>
+    <p ng-repeat="msg in response.posts">
+      <span>{{msg}}</span>
+    </p>
+  </div>
+
+</form>
+
+
