@@ -66,8 +66,11 @@ angular.module('LatelyOauth', ['ngRoute'])
 	})			
 	$scope.submit=function() {
 
-		delete $scope.errorMsg
-		$scope.statusMsg = 'Sending..' 
+		$scope.errorMsg = false
+		$scope.response = {}
+		$scope.busy = true 
+
+		console.log('busy')
 
 		$http.post('/api/posts/generate',{
 			link:$scope.urls.enteredURL || $scope.urls.selectedURL,			
@@ -77,8 +80,12 @@ angular.module('LatelyOauth', ['ngRoute'])
 			console.log('generatePosts returned',response.data)
 			$scope.response = response.data;
 		},function(err) {
+			$scope.statusMessage = ''
 			$scope.errorMsg = err.data;				
-		});
+		}).finally(function(){
+			console.log('not busy')
+			$scope.busy = false
+		})
 
 	};
 })

@@ -16,15 +16,19 @@
     <select ng-model="urls.selectedURL" ng-options="url for url in sampleUrls" class="form-control"></select>
   </div>	 
 
-  <p class="text-danger" ng-if="errorMsg">{{errorMsg}}</p>
-  <div ng-if="response">
+  <p>
+    <button type="submit" ng-disabled="!urls.selectedURL && !urls.enteredURL" class="btn btn-primary">Submit</button>
+    <span ng-if="busy">Sending..</span>
+    <span class="text-danger" ng-if="errorMsg">{{errorMsg}}</span>    
+    <i ng-if="busy" class="fa fa-spinner fa-spin"></i>
+  </p>
+
+  <div ng-if="response && !busy">
     <h3>Generated {{response.posts.length}} posts</h3>
     <p ng-repeat="msg in response.posts">
       <span>{{msg}}</span>
     </p>
   </div>
-
-  <button type="submit" ng-disabled="!urls.selectedURL && !urls.enteredURL" class="btn btn-primary">Submit</button>
 
 </form>
 
