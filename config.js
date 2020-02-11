@@ -1,10 +1,18 @@
 
 module.exports = {
 
-	clientID :'',
-	clientSecret :'',
-	callbackURL :'http://localhost:8080/auth/lately/callback',
+	clientID :'5b96ae546d5a195ddcb09c28',
+	clientSecret :'boUAql2WUKwx8uW59DUoyHt1H2JRYThEFkj3x1dtFS',
 
+	/**
+	dev options
+	callbackURL :'http://localhost:8080/auth/lately/callback',
+	serverURL:'http://localhost:3000',
+  	tokenURL: 'http://localhost:3000/v1/apps/oauth/token',
+  	authorizationURL:'http://localhost:3000/v1/apps/oauth/authorize',
+  	profileURL:'http://localhost:3000/v1/apps/user/profile'
+  	**/
+  	
 }; 
 
 

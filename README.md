@@ -222,6 +222,65 @@ POST `<lately server>/v1/apps/content/generate`
 ```
 If keywords are sent, you have the option to "Enforce Keywords" and only return posts that contain the keywords sent. If that's true, you will see "filtered: true" and each post will have an array of the keywords contained. 
 
+### Generate Posts
+
+* Generate posts from a link, without creating content in Lately:
+
+POST `<lately server>/v1/apps/posts/generate`
+
+* Sample Body Parameters 
+
+```
+{ 
+  dashboardId: '5b1009fa580fc1118c108d0f', // Lately dashboard ID tagged with api_generate_posts (contact brian@trylately.com)
+  link: 'https://venturebeat.com/2018/08/22/ibm-ai-transparency-factsheets/',
+}
+```
+
+* Sample Response
+
+```
+{ 
+  posts:
+   [
+ "FLUSHING, N.Y. , Aug. 29, 2018 / PRNewswire / --  IBM today announced that IBM Watson will now partner with tennis players and coaches to enhance their game strategy and better prepare for matches more efficiently. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "As a partner of the US Open tournament for more than 25 years, IBM innovations have positioned the US Open as a tournament at the forefront of the modern digital experience with technology that fans have come to know and love. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "This year, IBM and the USTA will integrate its AI Highlights technology into player performance as the tournament enters the next phase of its technology journey. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "For the past year, IBM has been working with the USTA Player Development's performance team to develop a technology solution that will help coaches and players analyze and improve their performance. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "The new player development solution uses AI Highlights, the same technology IBM built to support the USTA's US Open Digital Team, enabling them to create real-time content to engage their fans. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "The new player development solution will review hours of match footage and automatically identify and index key points and stats, allowing coaches to quickly design detailed reports for subsequent matches. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "This enables coaches to reference and review a comprehensive database of players' indexed match video that they otherwise would not have been able to access. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "\"Coaches and tennis players look to video as a useful resource that helps to evaluate players and develop scouting reports before and during tournaments. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Working with IBM enables us to process and index video using AI to free up valuable intellectual capital that we can re-allocate to more interpretive and customized analysis,\" said Martin Blackman , General Manager, USTA Player Development. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "\"Analyzing footage of previous matches is normally very time-intensive, involving many hours of manual 'match-tagging.' http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Video tagging that used to take hours can now take Watson minutes to execute. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "We are excited that working together with IBM we can create a new solution that will revolutionize our ability to pair analytics with coaching expertise to drive performance.\" http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "IBM will also continue to evolve the digital fan experience, designed by IBM iX, one of the world's largest digital agencies and global business design partners, for attendees of the US Open and the millions of people around the world who follow the tournament. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "After launching last year, AI Highlights is expanding at this year's tournament to include match and player-specific highlights, giving the USTA Digital Team the ability to quickly create highlights of a match or player within minutes. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Two new AI Highlights solutions will be available for the USTA Digital Team: IBM has built an AI Highlight dashboard that will populate in near real-time every shot of a match and its excitement level. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "The US Open Digital Team will be able to view and find the most exciting shot of the day or the match and leverage this content across all their digital channels, including social media. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "IBM's AI Highlight builder will allow the US Open Digital Team to generate a highlight video for any match played on one of the seven show courts. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "The system will generate a list of proposed points to be included in the highlights package. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Once the US Open Digital Team selects shots from the list, the system generates the highlights package for the USTA Digital Team to publish. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Enabled by Watson services, the chatbot answers questions about scoring, schedules, transportation, dining options and more. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Depending on the question, the Virtual Concierge may also direct users to their points of interest within an interactive map of the venue, which will also indicate an attendee's current location. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "For fans of SlamTracker , the experience will now include a \"momentum\" feature, so at a glance, fans can see who has advantage as well as the shifts in momentum over the course of all live matches. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "SlamTracker will continue to provide scores, stats and insights for all matches in progress, giving US Open fans an unprecedented level of analysis and engagement. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "\"The US Open offers an enormous amount of tennis across multiple courts over the two weeks of the tournament. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "We're proud to be able offer multiple fan experiences both on-site at the USTA Billie Jean King Tennis Center, and on the official US Open digital platforms that serve millions of fans around the world,\" said Noah Syken , VP of Sports & Entertainment Partnerships, IBM. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "\"To ensure fans are keeping pace throughout the tournament, IBM's AI technology will help fans follow matches and navigate their time on the US Open grounds. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "While we're seeing this type of technology come to life through tennis, these AI-powered solutions also are impacting many other industries.\" http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Experience Watson at the USTA Billie Jean King Tennis Center Fans who attend the US Open will have the opportunity to go to The IBM Experience , an on-site fan experience space new this year at the USTA Billie Jean King Tennis Center. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "The space is designed to introduce fans to the technology that powers the digital experience of the US Open for more than 10 million fans around the world. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "It will feature stunning visuals of SlamTracker, the IBM Cloud and Watson . http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Guests will be able to test Watson's ability to recognize the sights and sounds of the game, and create their own AI Highlights in the process that they can share on social media. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "About IBM Watson Watson represents a new era in computing, where systems understand the world in a way more similar to humans: through senses, learning, and experience. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "With the help of Watson , organizations are harnessing the power of AI to transform industries, help professionals do their jobs better, and solve important challenges. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships",
+ "Visit the Apple and  Android app stores to download the US Open apps for mobile devices. http://newsroom.ibm.com/2018-08-29-IBM-Gives-Tennis-Players-a-Competitive-Edge-with-Watson-at-the-2018-US-Open-Tennis-Championships"
+]
+}
+```
+
 ## License
 
 [The MIT License](http://opensource.org/licenses/MIT)
