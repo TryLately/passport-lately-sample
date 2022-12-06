@@ -10,7 +10,7 @@
   "dependencies": {
     "connect-ensure-login": "0.1.1",
     "ejs": "0.8.4",
-    "express": "3.3.5",
+    "express": "4.17.3",
     "express-partials": "0.1.1",
     "passport": "0.1.17",
     "passport-lately": "1.0.1",
